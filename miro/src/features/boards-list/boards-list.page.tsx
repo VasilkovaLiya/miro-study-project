@@ -1,15 +1,13 @@
 import { ROUTES } from "@/shared/model/routes";
 import { Link, href } from "react-router-dom";
-import { CONFIG } from "@/shared/model/config";
 import { rqClient } from "@/shared/api/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/shared/ui/kit/button";
 import { Card, CardAction, CardHeader, CardFooter } from "@/shared/ui/kit/card";
 function BoardsListPage() {
-  console.log(CONFIG.API_BASE_URL)
-
   const queryClient = useQueryClient();
   const boardsQuery = rqClient.useQuery('get', '/boards');
+
   const createBoardMutation = rqClient.useMutation('post', '/boards', {
     onSettled: async () => {
       await queryClient.invalidateQueries(rqClient.queryOptions('get', '/boards'));
